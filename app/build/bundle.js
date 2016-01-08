@@ -62,15 +62,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// es6 test
 	var flash = new _flashMessage2.default("Hello from ES2015, Babel and Gulp!");
 	flash.display();
 
+	// react test
 	_reactDom2.default.render(_react2.default.createElement(
 	    "h1",
 	    null,
 	    "Hello, world!"
 	), document.getElementById("example"));
 
+	// redux test
 	function counter() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 	    var action = arguments[1];

@@ -1,8 +1,13 @@
+var path = require('path');
+
 module.exports = {
-    entry: './src/app.js',
+    context: path.join(__dirname, './app'),
+    entry: {
+        bundle: './src/app.js',
+    },
     output: {
-        path: './build',
-        filename: "app.js"
+        path: path.join(__dirname, './app', './build'),
+        filename: "[name].js"
     },
     module: {
         loaders: [
@@ -18,5 +23,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js', '.json']
+    },
+    devServer: {
+        contentBase: './app',
+        hot: true
     }
 };
