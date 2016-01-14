@@ -23,7 +23,7 @@ var getPlugins = function(env) {
 
 var getLoaders = function(env) {
   var loaders = [
-    { test: /\.js$/, include: path.join(__dirname, 'src'), loader: 'babel' }
+    { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] }
   ];
 
   return loaders;

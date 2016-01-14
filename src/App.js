@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class App extends Component {
     render () {
-        let test = 'simple';
+        let text = "Hello, world!";
         return (
-            <h1 colour={test}>hello, world!!</h1>
+            <h1>{text}</h1>
         );
     }
 }
