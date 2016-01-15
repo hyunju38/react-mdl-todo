@@ -1,14 +1,35 @@
-// For info about this file refer to webpack and webpack-hot-middleware documentation
-// Rather than having hard coded webpack.config.js for each environment, this
-// file generates a webpack config for the environment passed to the getConfig method.
 var webpack = require('webpack');
 var path = require('path');
 
-module.exports = function(env){
+var getEntry = (env) => {
+    var entry = [];
+
+    if (env === 'development') {
+      entry.push('webpack-hot-middleware/client');
+    }
+
+    entry.push('./src/index');
+    return entry;
+};
+
+var getPlugins = (env) => {
+    var plugins = [new webpack.optimize.OccurenceOrderPlugin()];
+    switch(env) {
+        case 'production':
+            plugins.push(new webpack.optimize.DedupePlugin());
+            plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true, sourceMap: true}));   // script 압축
+            break;
+        case 'development':
+            plugins.push(new webpack.HotModuleReplacementPlugin());
+            plugins.push(new webpack.NoErrorsPlugin());
+            break;
+    }
+    return plugins;
+};
+
+module.exports = (env) => {
     return {
-        entry: {
-            main: ['webpack-hot-middleware/client', './src/index']
-        },
+        entry: getEntry(env),
         output: {
             path: path.join(__dirname + '/dist'),
             publicPath: '/dist/',
@@ -21,9 +42,6 @@ module.exports = function(env){
                 { test: /\.scss$/, include: path.join(__dirname, 'src'), loaders: ['style', 'css', 'sass'] }
             ]
         },
-        plugins: [
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin()
-        ]
+        plugins: getPlugins(env)
     };
 };

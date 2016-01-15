@@ -8,8 +8,12 @@ var webpackConfig = webpackConfigBuilder('development');
 var bundler = webpack(webpackConfig);
 
 browserSync({
+    port: 3000,
+    ui: {
+        port: 3001
+    },
     server: {
-        baseDir: './src',
+        baseDir: './',
         middleware: [
             webpackDevMiddleware(bundler, {
                 publicPath: webpackConfig.output.publicPath,
@@ -20,6 +24,6 @@ browserSync({
         ]
     },
     files: [
-        './src/*.html'
+        './index.html'
     ]
 });
