@@ -4,7 +4,7 @@ class App extends Component {
     render () {
         let text = "Hello, world!";
         return (
-            <h1>{text}</h1>
+            <h1 className="test-class">{text}</h1>
         );
     }
 }

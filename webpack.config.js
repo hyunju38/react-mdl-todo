@@ -4,57 +4,26 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var getPlugins = function(env) {
-  var plugins = [new webpack.optimize.OccurenceOrderPlugin()];
-
-  switch(env) {
-    case 'production':
-      plugins.push(new webpack.optimize.DedupePlugin());
-      plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true, sourceMap: true}));
-      break;
-    case 'development':
-      plugins.push(new webpack.HotModuleReplacementPlugin());
-      plugins.push(new webpack.NoErrorsPlugin());
-      break;
-  }
-
-  return plugins;
-};
-
-var getLoaders = function(env) {
-  var loaders = [
-    { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] }
-  ];
-
-  return loaders;
-};
-
-var getEntry = function(env) {
-  var entry = [];
-
-  if (env == 'development') { //only want hot reloading when in dev.
-    entry.push('webpack-hot-middleware/client');
-  }
-
-  entry.push('./src/index');
-  return entry;
-};
-
-module.exports = function getConfig(env) {
-  return {
-    debug: true,
-    devtool: env == 'production' ? 'source-map' : 'eval-source-map', //more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
-    noInfo: true, //set to false to see a list of every file being bundled.
-    entry: getEntry(env),
-    target: env == 'test' ? 'node' : 'web', //necessary per https://webpack.github.io/docs/testing.html#compile-and-test
-    output: {
-      path: __dirname + '/build/js',
-      publicPath: '/build/',
-      filename: 'bundle.js'
-    },
-    plugins: getPlugins(env),
-    module: {
-      loaders: getLoaders(env)
-    }
-  };
+module.exports = function(env){
+    return {
+        entry: {
+            main: ['webpack-hot-middleware/client', './src/index']
+        },
+        output: {
+            path: path.join(__dirname + '/dist'),
+            publicPath: '/dist/',
+            filename: '[name].js'
+        },
+        devtool: 'source-map',
+        module: {
+            loaders: [
+                { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint'] },
+                { test: /\.scss$/, include: path.join(__dirname, 'src'), loaders: ['style', 'css', 'sass'] }
+            ]
+        },
+        plugins: [
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoErrorsPlugin()
+        ]
+    };
 };
