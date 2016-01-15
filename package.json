@@ -4,7 +4,8 @@
   "description": "It's a bolierplate for front-end dev.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers js:babel-register"
+    "start": "node_modules/.bin/parallelshell \"npm run test\" \"node tools/server.js\"",
+    "test": "BABEL_ENV=test mocha"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "ignore-styles": "^1.2.0",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
+    "parallelshell": "^2.0.0",
     "react-addons-test-utils": "^0.14.6",
     "react-transform-catch-errors": "^1.0.1",
     "react-transform-hmr": "^1.0.1",
