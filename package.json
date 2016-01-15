@@ -4,8 +4,14 @@
   "description": "It's a bolierplate for front-end dev.",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/parallelshell \"npm run test\" \"node tools/server.js\"",
-    "test": "BABEL_ENV=test mocha"
+    "start": "npm run dev",
+    "test": "BABEL_ENV=test mocha",
+    "dev": "npm run test -- --watch & npm run dev:server",
+    "dev:server": "node tools/dev-server.js",
+    "build": "npm run test && npm run build:js && npm run build:server",
+    "build:js": "BABEL_ENV=production node tools/build.js",
+    "build:sass": "node-sass --quiet --output dist src/main.scss --source-map true --output-style compressed",
+    "build:server": "node tools/dist-server.js"
   },
   "repository": {
     "type": "git",
@@ -38,7 +44,6 @@
     "ignore-styles": "^1.2.0",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
-    "parallelshell": "^2.0.0",
     "react-addons-test-utils": "^0.14.6",
     "react-transform-catch-errors": "^1.0.1",
     "react-transform-hmr": "^1.0.1",
