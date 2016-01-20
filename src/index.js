@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
-import './main.scss';
+import TodoApp from './TodoApp';
 
 ReactDOM.render(
-    <App />,
+    <TodoApp />,
     document.getElementById('root')
 );
