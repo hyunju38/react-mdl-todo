@@ -1,0 +1,25 @@
+.filter {
+    margin-left: -35px;
+    list-style-type: none;
+
+    li {
+        display: inline;
+
+        &::after {
+            padding: 0 10px;
+            content: '|';
+        }
+        &:last-child::after {
+            content: '';
+        }
+
+        span {
+            cursor: pointer;
+        }
+
+        .is_active {
+            color: blue;
+            text-decoration: underline;
+        }
+    }
+}

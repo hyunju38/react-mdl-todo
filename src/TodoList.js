@@ -1,36 +1,41 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import TodoItem from './TodoItem';
+
+import './TodoList.scss';
+
+const DISPLAY_NAME = 'TodoList';
 
 class TodoList extends Component {
 
     render () {
-        let { completeTodo, removeTodo, selectedFilter } = this.props;
-        let todos = this.props.todos.filter((todo, index) => {
-            if (selectedFilter === 1 ) {
-                return true && !todo.deleted;
-            } else if (selectedFilter === 2) {
-                return !todo.completed && !todo.deleted;
-            } else if (selectedFilter === 3) {
-                return todo.completed && !todo.deleted;
-            } else if (selectedFilter === 4) {
-                return todo.deleted;
-            }
-        });
-
+        let { completeTodo, removeTodo, todos } = this.props;
         return (
-            <div>
-                <ul className="todo-list">
+            <div className="todo_list">
+                <ul>
                     {todos.map((todo, index) =>
-                        <TodoItem key={todo.id}
-                            completeTodo={completeTodo}
+                        <TodoItem completeTodo={completeTodo}
+                            key={todo.id}
                             removeTodo={removeTodo}
-                            {...todo} />
+                            {...todo}
+                        />
                     )}
                 </ul>
             </div>
         );
     }
 }
+
+TodoList.displayName = DISPLAY_NAME;
+TodoList.propTypes = {
+    completeTodo: React.PropTypes.func.isRequired,
+    removeTodo: React.PropTypes.func.isRequired,
+    todos: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        completed: PropTypes.bool.isRequired,
+        deleted: PropTypes.bool.isRequired
+    }).isRequired).isRequired
+};
 
 export default TodoList;

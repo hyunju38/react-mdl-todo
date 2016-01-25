@@ -1,40 +1,64 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import './TodoInput.scss';
+
+const DISPLAY_NAME = 'TodoInput';
+
 class TodoInput extends Component {
 
-    handleSubmit () {
-        this.props.addTodo();
+    constructor () {
+        super();
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddTodo = this.handleAddTodo.bind(this);
+        this.handleInputRef = this.handleInputRef.bind(this);
     }
 
-    handleChange () {
-        this.props.changeInputText(this.refs.inputText.value);
-    }
-
-    handleKeyDown (e) {
-        // console.log(e);
-        if (e.keyCode !== 13) {
+    handleAddTodo () {
+        // todo text 입력 유효성 검증
+        if (!this.inputText || !this.inputText.value) {
             return;
         }
-        this.handleSubmit();
+        let inputTextValue = this.inputText.value;
+        if (inputTextValue.trim() === '') {
+            return;
+        }
+        this.props.addTodo(inputTextValue);
+        this.inputText.value = '';
+    }
+
+    handleSubmit (event) {
+        // enter key에 submit 적용
+        if (event.keyCode !== 13) {
+            return;
+        }
+        this.handleAddTodo();
+    }
+
+    handleInputRef (element) {
+        return this.inputText = element;
     }
 
     render () {
         return (
-            <div>
+            <div className="todo_input">
                 <div className="mdl-textfield mdl-js-textfield">
                     <input className="mdl-textfield__input"
-                        type="text"
                         id="todo-text"
-                        value={this.props.inputText}
-                        onChange={this.handleChange.bind(this)}
-                        onKeyDown={this.handleKeyDown.bind(this)}
-                        ref="inputText" />
-                    <label className="mdl-textfield__label" htmlFor="todo-text">Input your Todo</label>
+                        onKeyDown={this.handleSubmit}
+                        ref={this.handleInputRef}
+                        type="text"
+                    />
+                    <label className="mdl-textfield__label"
+                        htmlFor="todo-text"
+                    >
+                        {'Input your Todo'}
+                    </label>
                     <button className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-button--mini-fab"
-                        style={{right: -15, top: 15}}
-                        onClick={this.handleSubmit.bind(this)} >
-                        <i className="material-icons">add</i>
+                        onClick={this.handleAddTodo}
+                    >
+                        <i className="material-icons">{'add'}</i>
                     </button>
                 </div>
             </div>
@@ -42,10 +66,9 @@ class TodoInput extends Component {
     }
 }
 
+TodoInput.displayName = DISPLAY_NAME;
 TodoInput.propTypes = {
-    inputText: React.PropTypes.string.isRequired,
-    addTodo: React.PropTypes.func.isRequired,
-    changeInputText: React.PropTypes.func.isRequired
+    addTodo: React.PropTypes.func.isRequired
 };
 
 export default TodoInput;

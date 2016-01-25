@@ -182,9 +182,28 @@ textarea의 값은 children에 작성하는 것이 아닌 value 속성에 작성
 select의 경우 option에 selected 속성을 주는 것이 아닌 select의 value 속성을 할당한다. React에서 조작을 쉽게 하기 위해서 이다.
 
 
+Working with the browser
+------------------------
+React는 기본적으로 Virtual DOM을 사용하기 때문에 빠른 속도로 UI를 업데이트 해준다.
+
+실제 DOM에 접근하고 싶을 때는 element에 `ref`를 추가하여 `this.refs`를 이용해 DOM에 접근할 수 있다.
+
+Component에는 lifecycle이 있어 `Mounting`, `Updating`, `Unmounting` 그리고 `Mounted` 각각 주기에 따라 실행되는 method가 있다.
+
+대부분 Browser를 호환한다. IE는 9 이상.
+
+
+Refs
+----
+public method를 정의하거나 실행할 수 있다. 하지만 대부분의 경우 React의 data flow를 사용하는 것이 더 명확하다.
+
+DOM에 접근하는데 사용한다.
+
+저절로 관리되기 때문에 개발자는 신경을 쓰지 않아도 된다.
+
+
 React 방식으로 생각하기
 ------------------
-
 0. 사용할 Data(or Mock data)와 UI
 1. `단일책임의 원칙(Single responsible principle)`을 적용하여 UI를 Component로 쪼개기: 계층 정리
 2. React를 이용하여 static 형태로 만들기: Interactivity 부분은 많은 사고가 필요하기 때문에 나중으로 미룸
@@ -195,7 +214,6 @@ React 방식으로 생각하기
 
 Summary
 -------
-
 `render` method는 component의 핵심, Component의 data를 넣고 UI를 보여주는 역할.
 
 data의 형태는 props, state 두 가지.
